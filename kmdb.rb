@@ -120,23 +120,34 @@ Movie.destroy_all
 Actor.destroy_all
 Role.destroy_all
 
+#studios 
+
+newstudio = Studio.new
+newstudio["name"] = "Warner Bros."
+newstudio.save
+
+warnerbros = Studio.find_by({"name" => "Warner Bros."})
+
 #movies
 batman_begins = Movie.new
 batman_begins["title"] = "Batman Begins"
 batman_begins["year_released"] = 2005
 batman_begins["rated"]= "PG-13"
+batman_begins["studio_id"] = warnerbros["id"]
 batman_begins.save
 
 dark_knight = Movie.new
 dark_knight["title"] = "The Dark Knight"
 dark_knight["year_released"] = 2008
 dark_knight["rated"] = "PG-13"
+dark_knight["studio_id"] = warnerbros["id"]
 dark_knight.save
 
 dark_knight_rises = Movie.new
 dark_knight_rises["title"] = "The Dark Knight Rises"
 dark_knight_rises["year_released"] = 2012
 dark_knight_rises["rated"] = "PG-13"
+dark_knight_rises["studio_id"] = warnerbros["id"]
 dark_knight_rises.save
 
 #actors
@@ -329,6 +340,12 @@ puts ""
 # Query the movies data and loop through the results to display the movies output.
 # TODO!
 
+allmovies = Movie.all
+
+for movie in allmovies
+    studio_name = Studio.find(movie.studio_id).name
+    puts "#{movie["title"]} #{movie["year_released"]} #{movie["rated"]} #{studio_name}"
+end
 
 # Prints a header for the cast output
 puts ""
@@ -336,6 +353,15 @@ puts "Top Cast"
 puts "========"
 puts ""
 
-
 # Query the cast data and loop through the results to display the cast output for each movie.
 # TODO!
+
+all_movies = Movie.all
+
+for movie in all_movies
+    roles = Role.where(movie_id: movie.id)
+    for role in roles
+        actor = Actor.find(role.actor_id)
+        puts "#{movie.title} #{actor.name} #{role.character_name}"
+    end
+end
