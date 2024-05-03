@@ -85,7 +85,7 @@
 # Generate models and tables, according to the domain model.
 # TODO!
 
-#did this separately via terminal commands prior to running this file to add the data in
+#did this separately via terminal commands prior to running this file to add records
 
 #rails generate model Studio 
 #added t.string "names" to the new db file 
@@ -110,11 +110,11 @@
 #run below once you've added the appropriate data structures to the db file
 #rails db:migrate
 
-
 # Insert data into the database that reflects the sample data shown above.
 # Do not use hard-coded foreign key IDs.
 # TODO!
 
+#deletes all records in tables so I can test over and over
 Studio.destroy_all
 Movie.destroy_all
 Actor.destroy_all
@@ -359,7 +359,7 @@ puts ""
 all_movies = Movie.all
 
 for movie in all_movies
-    roles = Role.where(movie_id: movie.id)
+    roles = Role.where(movie_id: movie.id) 
     for role in roles
         actor = Actor.find(role.actor_id)
         puts "#{movie.title} #{actor.name} #{role.character_name}"
